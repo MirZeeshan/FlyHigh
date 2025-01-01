@@ -334,4 +334,11 @@ class DatabaseSchema {
     FOREIGN KEY (exercise_id) REFERENCES Exercises (exercise_id)
   );
   ''';
+  static const String bodyweightTable = '''
+  CREATE TABLE bodyweights (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  weight REAL NOT NULL,
+  date TEXT NOT NULL
+);
+''';
 }
