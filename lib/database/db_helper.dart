@@ -248,8 +248,37 @@ class DatabaseHelper {
       whereArgs: [templateExerciseId],
     );
   }
-}
 
+  // Test Data Initialization for Integration Testing
+  Future<void> initializeTestData() async {
+    final db = await database;
+
+    // Check if we already have test data
+    final List<Map<String, dynamic>> users = await db.query('Users');
+    if (users.isEmpty) {
+      // Add test user
+      await db.insert('Users', {
+        'name': 'Test User',
+        'email': 'test@example.com',
+        'password_hash': 'test123',
+        'created_at': DateTime.now().toIso8601String(),
+      });
+
+      // Add workout types
+      await db.insert('Types', {
+        'type_name': 'Strength Training',
+        'description': 'Weight lifting and resistance training',
+        'default_metrics': 'sets,reps,weight'
+      });
+
+      await db.insert('Types', {
+        'type_name': 'Cardio',
+        'description': 'Cardiovascular exercises',
+        'default_metrics': 'duration,distance,heart_rate'
+      });
+    }
+  }
+}
 
 class DatabaseSchema {
   static const String usersTable = '''
