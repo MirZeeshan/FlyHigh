@@ -12,14 +12,14 @@ import '../database/models.dart';
 /// - Weight used
 /// - Optional notes
 /// Supports multiple users and persists data to a local database.
-class WorkoutPage extends StatefulWidget {
-  const WorkoutPage({Key? key}) : super(key: key);
+class WorkoutLogScreen extends StatefulWidget {
+  const WorkoutLogScreen({Key? key}) : super(key: key);
 
   @override
-  _WorkoutPageState createState() => _WorkoutPageState();
+  _WorkoutLogScreenState createState() => _WorkoutLogScreenState();
 }
 
-class _WorkoutPageState extends State<WorkoutPage> {
+class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
   // Form controllers for user input
   final _formKey = GlobalKey<FormState>();
   final _exerciseController = TextEditingController();
@@ -38,14 +38,14 @@ class _WorkoutPageState extends State<WorkoutPage> {
   void _log(String message, {String level = 'INFO'}) {
     if (kDebugMode) {
       final timestamp = DateTime.now().toIso8601String();
-      print('[$level] $timestamp: WorkoutPage: $message');
+      print('[$level] $timestamp: WorkoutLogScreen: $message');
     }
   }
 
   @override
   void initState() {
     super.initState();
-    _log('Initializing WorkoutPage');
+    _log('Initializing WorkoutLogScreen');
     _loadUsers();
   }
 
@@ -79,7 +79,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   @override
   void dispose() {
-    _log('Disposing WorkoutPage');
+    _log('Disposing WorkoutLogScreen');
     // Clean up controllers
     _exerciseController.dispose();
     _setsController.dispose();
@@ -160,7 +160,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    _log('Building WorkoutPage UI');
+    _log('Building WorkoutLogScreen UI');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Log Workout'),

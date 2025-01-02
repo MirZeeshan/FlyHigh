@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart' as home;
-import 'screens/log_screen.dart';
+import 'screens/workout_log_screen.dart' as workoutlog;
 import 'screens/progress_screen.dart' as progress;
 import 'database/db_helper.dart';
 
@@ -14,25 +14,35 @@ void _log(String message, {String level = 'INFO'}) {
 }
 
 /// Entry point for the Workout Tracker application.
+///
+/// Initializes Flutter bindings, sets up the database
+/// with test data, and starts the application.
 void main() async {
   try {
     _log('Initializing Workout Tracker application');
 
+    // Ensure Flutter bindings are initialized before accessing platform channels
     WidgetsFlutterBinding.ensureInitialized();
     _log('Flutter bindings initialized');
 
+    // Initialize database with test data
+    _log('Initializing database with test data');
     await DatabaseHelper.instance.initializeTestData();
     _log('Database initialization completed');
 
+    // Start the application
     runApp(const MyApp());
     _log('Application started successfully');
   } catch (e, stackTrace) {
     _log('Failed to initialize application: $e\n$stackTrace', level: 'ERROR');
-    rethrow;
+    rethrow; // Rethrow to let Flutter handle fatal errors
   }
 }
 
 /// Root widget of the Workout Tracker application.
+///
+/// Configures the application theme and routing system. Uses Material 3 design
+/// and provides a consistent blue color scheme throughout the application.
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -42,10 +52,18 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Workout Tracker',
+
+      // Configure application theme
       theme: ThemeData(
         primarySwatch: Colors.blue,
         useMaterial3: true,
+        // Add additional theme configuration here if needed:
+        // cardTheme: CardTheme(...),
+        // appBarTheme: AppBarTheme(...),
+        // etc.
       ),
+
+      // Define application routes
       initialRoute: '/',
       routes: {
         '/': (context) {
@@ -53,14 +71,16 @@ class MyApp extends StatelessWidget {
           return const home.HomePage();
         },
         '/workout': (context) {
-          _log('Navigating to WorkoutPage');
-          return const WorkoutPage();
+          _log('Navigating to WorkoutLogScreen');
+          return const workoutlog.WorkoutLogScreen();
         },
         '/progress': (context) {
           _log('Navigating to ProgressScreen');
           return const progress.ProgressScreen();
         },
       },
+
+      // Error handling for unknown routes
       onUnknownRoute: (settings) {
         _log('Unknown route requested: ${settings.name}', level: 'WARNING');
         return MaterialPageRoute(
