@@ -54,6 +54,29 @@ class _HomePageState extends State<HomePage> {
     _loadInitialData();
   }
 
+/// Verifies and logs current user data in the database
+  /// Used for debugging and testing the registration flow
+  Future<void> _verifyUserData() async {
+    try {
+      _log('Starting user data verification');
+      final users = await _dbHelper.fetchAllUsers();
+      _log('=== User Database Verification ===');
+      _log('Total users in database: ${users.length}');
+
+      for (var user in users) {
+        _log('''
+----- User Details -----
+ID: ${user['user_id']}
+Name: ${user['name']}
+Email: ${user['email']}
+Created: ${user['created_at']}
+---------------------''');
+      }
+      _log('=== Verification Complete ===');
+    } catch (e, stackTrace) {
+      _log('Error verifying user data: $e\n$stackTrace', level: 'ERROR');
+    }
+  }
   /// Loads the initial application data including users and their workout information.
   ///
   /// First fetches all users from the database, then loads workout data for the first
@@ -62,6 +85,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> _loadInitialData() async {
     try {
       _log('Loading initial application data');
+      await _verifyUserData();
 
       // Load users first
       final usersData = await _dbHelper.fetchAllUsers();
@@ -209,14 +233,45 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('No users found. Please add a user to get started.'),
-          const SizedBox(height: 16),
+          const Text(
+            'Welcome to Workout Tracker!',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Text('Please create an account to get started.'),
+          const SizedBox(height: 24),
           ElevatedButton(
             onPressed: () {
-              _log('Add User button pressed');
-              // TODO: Navigate to add user screen
+              _log('Register button pressed');
+              Navigator.pushNamed(context, '/register').then((_) {
+                // Reload data when returning from registration
+                _loadInitialData();
+              });
             },
-            child: const Text('Add User'),
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 32,
+                vertical: 16,
+              ),
+            ),
+            child: const Text(
+              'Register',
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
+          const SizedBox(height: 16),
+          TextButton(
+            onPressed: () {
+              _log('Login button pressed');
+              Navigator.pushNamed(context, '/login').then((_) {
+                // Reload data when returning from login
+                _loadInitialData();
+              });
+            },
+            child: const Text('Already have an account? Login'),
           ),
         ],
       ),

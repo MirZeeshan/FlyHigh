@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'screens/home_screen.dart' as home;
 import 'screens/workout_log_screen.dart' as workoutlog;
 import 'screens/progress_screen.dart' as progress;
+import 'auth/auth_screens/user_registration_screen.dart';
+import 'auth/auth_screens/login_screen.dart';
 import 'database/db_helper.dart';
 
 /// Custom logger function that includes timestamp and log level
@@ -26,7 +28,6 @@ void main() async {
     _log('Flutter bindings initialized');
 
     // Initialize database with test data
-    _log('Initializing database with test data');
     await DatabaseHelper.instance.initializeTestData();
     _log('Database initialization completed');
 
@@ -77,6 +78,14 @@ class MyApp extends StatelessWidget {
         '/progress': (context) {
           _log('Navigating to ProgressScreen');
           return const progress.ProgressScreen();
+        },
+        '/register': (context) {
+          _log('Navigating to UserRegistrationScreen');
+          return const UserRegistrationScreen();
+        },
+        '/login': (context) {
+          _log('Navigating to LoginScreen');
+          return const LoginScreen();
         },
       },
 

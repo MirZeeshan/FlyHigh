@@ -1,6 +1,5 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-
 class DatabaseHelper {
   static const String _databaseName = "workout_tracker.db";
   static const int _databaseVersion = 1;
@@ -12,9 +11,9 @@ class DatabaseHelper {
   // Database reference
   static Database? _database;
 
+  // Add this getter implementation that was missing
   Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await _initDatabase();
+    _database ??= await _initDatabase();
     return _database!;
   }
 
@@ -37,234 +36,11 @@ class DatabaseHelper {
     await db.execute(DatabaseSchema.templateExercisesTable);
   }
 
-// The Following are CRUD Operations
-// User Tables
-
-//Create
-  Future<int> insertUser(Map<String, dynamic> user) async {
-    final db = await database;
-    return await db.insert('Users', user);
-  }
-
-//Read
-  Future<List<Map<String, dynamic>>> fetchAllUsers() async {
-    final db = await database;
-    return await db.query('Users');
-  }
-
-//Update
-  Future<int> updateUser(int userId, Map<String, dynamic> user) async {
-    final db = await database;
-    return await db.update(
-      'Users',
-      user,
-      where: 'user_id = ?',
-      whereArgs: [userId],
-    );
-  }
-
-//Delete
-  Future<int> deleteUser(int userId) async {
-    final db = await database;
-    return await db.delete(
-      'Users',
-      where: 'user_id = ?',
-      whereArgs: [userId],
-    );
-  }
-
-  Future<List<Map<String, dynamic>>> fetchAllTypes() async {
-    final db = await database;
-    return await db.query('Types');
-  }
-
-//Workout Tables
-
-//Create
-  Future<int> insertWorkout(Map<String, dynamic> workout) async {
-    final db = await database;
-    return await db.insert('Workouts', workout);
-  }
-
-//Read all
-  Future<List<Map<String, dynamic>>> fetchAllWorkouts() async {
-    final db = await database;
-    return await db.query('Workouts');
-  }
-
-//Read by type
-  Future<List<Map<String, dynamic>>> fetchWorkoutsByType(int typeId) async {
-    final db = await database;
-    return await db.query(
-      'Workouts',
-      where: 'type_id = ?',
-      whereArgs: [typeId],
-    );
-  }
-
-//Update
-  Future<int> updateWorkout(int workoutId, Map<String, dynamic> workout) async {
-    final db = await database;
-    return await db.update(
-      'Workouts',
-      workout,
-      where: 'workout_id = ?',
-      whereArgs: [workoutId],
-    );
-  }
-
-//Delete
-  Future<int> deleteWorkout(int workoutId) async {
-    final db = await database;
-    return await db.delete(
-      'Workouts',
-      where: 'workout_id = ?',
-      whereArgs: [workoutId],
-    );
-  }
-
-//Exercise Tables
-
-//Create
-  Future<int> insertExercise(Map<String, dynamic> exercise) async {
-    final db = await database;
-    return await db.insert('Exercises', exercise);
-  }
-
-//Read
-  Future<List<Map<String, dynamic>>> fetchAllExercises() async {
-    final db = await database;
-    return await db.query('Exercises');
-  }
-
-//Update
-  Future<int> updateExercise(int exerciseId, Map<String, dynamic> exercise) async {
-    final db = await database;
-    return await db.update(
-      'Exercises',
-      exercise,
-      where: 'exercise_id = ?',
-      whereArgs: [exerciseId],
-    );
-  }
-
-//Delete
-  Future<int> deleteExercise(int exerciseId) async {
-    final db = await database;
-    return await db.delete(
-      'Exercises',
-      where: 'exercise_id = ?',
-      whereArgs: [exerciseId],
-    );
-  }
-
-//Workout_Exercises Tables
-
-//Create
-  Future<int> addExerciseToWorkout(Map<String, dynamic> workoutExercise) async {
-    final db = await database;
-    return await db.insert('Workout_Exercises', workoutExercise);
-  }
-
-//Read
-  Future<List<Map<String, dynamic>>> fetchExercisesForWorkout(int workoutId) async {
-    final db = await database;
-    return await db.query(
-      'Workout_Exercises',
-      where: 'workout_id = ?',
-      whereArgs: [workoutId],
-    );
-  }
-
-//Delete
-  Future<int> deleteWorkoutExercise(int workoutExerciseId) async {
-    final db = await database;
-    return await db.delete(
-      'Workout_Exercises',
-      where: 'workout_exercise_id = ?',
-      whereArgs: [workoutExerciseId],
-    );
-  }
-
-//Templates Table
-
-//Create
-  Future<int> insertTemplate(Map<String, dynamic> template) async {
-    final db = await database;
-    return await db.insert('Templates', template);
-  }
-
-//Read
-  Future<List<Map<String, dynamic>>> fetchAllTemplates() async {
-    final db = await database;
-    return await db.query('Templates');
-  }
-
-//Update
-  Future<int> updateTemplate(int templateId, Map<String, dynamic> template) async {
-    final db = await database;
-    return await db.update(
-      'Templates',
-      template,
-      where: 'template_id = ?',
-      whereArgs: [templateId],
-    );
-  }
-
-//Delete
-  Future<int> deleteTemplate(int templateId) async {
-    final db = await database;
-    return await db.delete(
-      'Templates',
-      where: 'template_id = ?',
-      whereArgs: [templateId],
-    );
-  }
-
-//Template_Exercise Tables
-
-//Create
-  Future<int> addExerciseToTemplate(Map<String, dynamic> templateExercise) async {
-    final db = await database;
-    return await db.insert('Template_Exercises', templateExercise);
-  }
-
-//Read
-  Future<List<Map<String, dynamic>>> fetchExercisesForTemplate(int templateId) async {
-    final db = await database;
-    return await db.query(
-      'Template_Exercises',
-      where: 'template_id = ?',
-      whereArgs: [templateId],
-    );
-  }
-
-//Delete
-  Future<int> deleteTemplateExercise(int templateExerciseId) async {
-    final db = await database;
-    return await db.delete(
-      'Template_Exercises',
-      where: 'template_exercise_id = ?',
-      whereArgs: [templateExerciseId],
-    );
-  }
-
-  // Test Data Initialization for Integration Testing
+  // Initialize test data
   Future<void> initializeTestData() async {
     final db = await database;
-
-    // Check if we already have test data
-    final List<Map<String, dynamic>> users = await db.query('Users');
-    if (users.isEmpty) {
-      // Add test user
-      await db.insert('Users', {
-        'name': 'Test User',
-        'email': 'test@example.com',
-        'password_hash': 'test123',
-        'created_at': DateTime.now().toIso8601String(),
-      });
-
-      // Add workout types
+    final types = await db.query('Types');
+    if (types.isEmpty) {
       await db.insert('Types', {
         'type_name': 'Strength Training',
         'description': 'Weight lifting and resistance training',
@@ -277,6 +53,77 @@ class DatabaseHelper {
         'default_metrics': 'duration,distance,heart_rate'
       });
     }
+  }
+
+  // User CRUD Operations
+  Future<int> insertUser(Map<String, dynamic> user) async {
+    final db = await database;
+    return await db.insert('Users', user);
+  }
+
+  Future<List<Map<String, dynamic>>> fetchAllUsers() async {
+    final db = await database;
+    return await db.query('Users');
+  }
+
+  Future<int> updateUser(int userId, Map<String, dynamic> user) async {
+    final db = await database;
+    return await db.update(
+      'Users',
+      user,
+      where: 'user_id = ?',
+      whereArgs: [userId],
+    );
+  }
+
+  Future<int> deleteUser(int userId) async {
+    final db = await database;
+    return await db.delete(
+      'Users',
+      where: 'user_id = ?',
+      whereArgs: [userId],
+    );
+  }
+
+  // Workout CRUD Operations
+  Future<int> insertWorkout(Map<String, dynamic> workout) async {
+    final db = await database;
+    return await db.insert('Workouts', workout);
+  }
+
+  Future<List<Map<String, dynamic>>> fetchAllWorkouts() async {
+    final db = await database;
+    return await db.query('Workouts');
+  }
+
+  Future<List<Map<String, dynamic>>> fetchWorkoutsByType(int typeId) async {
+    final db = await database;
+    return await db.query(
+      'Workouts',
+      where: 'type_id = ?',
+      whereArgs: [typeId],
+    );
+  }
+
+  // Exercise Operations
+  Future<int> insertExercise(Map<String, dynamic> exercise) async {
+    final db = await database;
+    return await db.insert('Exercises', exercise);
+  }
+
+  Future<int> addExerciseToWorkout(Map<String, dynamic> workoutExercise) async {
+    final db = await database;
+    return await db.insert('Workout_Exercises', workoutExercise);
+  }
+
+  Future<List<Map<String, dynamic>>> fetchExercisesForWorkout(
+      int workoutId) async {
+    final db = await database;
+    return await db.query(
+      'Workout_Exercises',
+      where: 'workout_id = ?',
+      whereArgs: [workoutId],
+    );
   }
 }
 

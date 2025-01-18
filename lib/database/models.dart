@@ -1,3 +1,4 @@
+
 class User {
   final int? userId;
   final String name;
@@ -30,6 +31,21 @@ class User {
       email: map['email'],
       passwordHash: map['password_hash'],
       createdAt: DateTime.parse(map['created_at']),
+    );
+  }
+  User copyWith({
+    int? userId,
+    String? name,
+    String? email,
+    String? passwordHash,
+    DateTime? createdAt,
+  }) {
+    return User(
+      userId: userId ?? this.userId,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      passwordHash: passwordHash ?? this.passwordHash,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 }
