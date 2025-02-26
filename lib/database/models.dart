@@ -1,4 +1,3 @@
-
 class User {
   final int? userId;
   final String name;
@@ -33,6 +32,7 @@ class User {
       createdAt: DateTime.parse(map['created_at']),
     );
   }
+
   User copyWith({
     int? userId,
     String? name,
@@ -92,6 +92,26 @@ class Workout {
       typeId: map['type_id'],
     );
   }
+
+  Workout copyWith({
+    int? workoutId,
+    int? userId,
+    DateTime? date,
+    int? duration,
+    String? notes,
+    int? caloriesBurned,
+    int? typeId,
+  }) {
+    return Workout(
+      workoutId: workoutId ?? this.workoutId,
+      userId: userId ?? this.userId,
+      date: date ?? this.date,
+      duration: duration ?? this.duration,
+      notes: notes ?? this.notes,
+      caloriesBurned: caloriesBurned ?? this.caloriesBurned,
+      typeId: typeId ?? this.typeId,
+    );
+  }
 }
 
 class Exercise {
@@ -126,6 +146,22 @@ class Exercise {
       category: map['category'],
       description: map['description'],
       bodyPart: map['body_part'],
+    );
+  }
+
+  Exercise copyWith({
+    int? exerciseId,
+    String? name,
+    String? category,
+    String? description,
+    String? bodyPart,
+  }) {
+    return Exercise(
+      exerciseId: exerciseId ?? this.exerciseId,
+      name: name ?? this.name,
+      category: category ?? this.category,
+      description: description ?? this.description,
+      bodyPart: bodyPart ?? this.bodyPart,
     );
   }
 }
@@ -170,6 +206,26 @@ class WorkoutExercise {
       reps: map['reps'],
       weight: map['weight'],
       duration: map['duration'],
+    );
+  }
+
+  WorkoutExercise copyWith({
+    int? workoutExerciseId,
+    int? workoutId,
+    int? exerciseId,
+    int? sets,
+    int? reps,
+    int? weight,
+    int? duration,
+  }) {
+    return WorkoutExercise(
+      workoutExerciseId: workoutExerciseId ?? this.workoutExerciseId,
+      workoutId: workoutId ?? this.workoutId,
+      exerciseId: exerciseId ?? this.exerciseId,
+      sets: sets ?? this.sets,
+      reps: reps ?? this.reps,
+      weight: weight ?? this.weight,
+      duration: duration ?? this.duration,
     );
   }
 }

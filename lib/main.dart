@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'screens/home_screen.dart' as home;
 import 'screens/workout_log_screen.dart' as workoutlog;
 import 'screens/progress_screen.dart' as progress;
+import 'screens/exercise_library_screen.dart';
 import 'auth/auth_screens/user_registration_screen.dart';
 import 'auth/auth_screens/login_screen.dart';
 import 'database/db_helper.dart';
@@ -32,7 +34,11 @@ void main() async {
     _log('Database initialization completed');
 
     // Start the application
-    runApp(const MyApp());
+    runApp(
+      const ProviderScope(
+        child: MyApp(),
+        ),
+    );
     _log('Application started successfully');
   } catch (e, stackTrace) {
     _log('Failed to initialize application: $e\n$stackTrace', level: 'ERROR');
@@ -86,6 +92,10 @@ class MyApp extends StatelessWidget {
         '/login': (context) {
           _log('Navigating to LoginScreen');
           return const LoginScreen();
+        },
+        '/exercise-library': (context) {
+          _log('Navigating to ExerciseLibraryScreen');
+          return const ExerciseLibraryScreen();
         },
       },
 

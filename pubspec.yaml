@@ -14,9 +14,13 @@ dependencies:
   intl: ^0.18.0
   logging: ^1.2.0
   crypto: ^3.0.3
+  flutter_riverpod: ^2.4.9
+  riverpod_annotation: ^2.3.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   sqflite_common_ffi: ^2.3.2
   path_provider_platform_interface: ^2.1.2
+  riverpod_generator: ^2.3.9
+  build_runner: ^2.4.8

@@ -125,6 +125,47 @@ class DatabaseHelper {
       whereArgs: [workoutId],
     );
   }
+  // Add these methods to your DatabaseHelper class in db_helper.dart
+
+// Exercise-related methods
+  Future<List<Map<String, dynamic>>> fetchAllExercises() async {
+    final db = await database;
+    return await db.query('Exercises');
+  }
+
+  Future<List<Map<String, dynamic>>> searchExercises(String query) async {
+    final db = await database;
+    return await db.query(
+      'Exercises',
+      where: 'name LIKE ? OR category LIKE ?',
+      whereArgs: ['%$query%', '%$query%'],
+    );
+  }
+
+  Future<List<Map<String, dynamic>>> fetchExercisesByCategory(
+      String category) async {
+    final db = await database;
+    return await db.query(
+      'Exercises',
+      where: 'category = ?',
+      whereArgs: [category],
+    );
+  }
+
+  Future<Map<String, dynamic>?> fetchExerciseById(int id) async {
+    final db = await database;
+    final results = await db.query(
+      'Exercises',
+      where: 'exercise_id = ?',
+      whereArgs: [id],
+      limit: 1,
+    );
+
+    if (results.isNotEmpty) {
+      return results.first;
+    }
+    return null;
+  }
 }
 
 class DatabaseSchema {
