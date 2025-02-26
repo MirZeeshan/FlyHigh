@@ -17,9 +17,10 @@ A workout tracking application built with Flutter and Riverpod.
 - **Architecture**: Clean separation of UI, business logic, and data layers
 - **Navigation**: Named routes for clean navigation between screens
 
-## Screenshots
+## UI & Icons
 
-[Add screenshots here]
+TODO - Add Polish
+TODO - Update Icons
 
 ## Getting Started
 
